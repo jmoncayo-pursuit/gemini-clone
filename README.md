@@ -2,6 +2,7 @@
 
 This project is a clone of the Gemini AI interface, built with React and Google's Generative AI API.
 
+- [Live Site](https://gemini-clone-ai-chat.netlify.app/)
 
 
 ## Features
@@ -18,6 +19,8 @@ This project is a clone of the Gemini AI interface, built with React and Google'
 - React
 - Google Generative AI API
 - CSS
+- JavaScript
+
 
 ## Installation
 
