@@ -10,9 +10,10 @@ const ContextProvider = (props) => {
   const [showResult, setShowResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
+  const [conversationHistory, setConversationHistory] = useState([]);
 
   const delayPara = (index, nextWord) => {
-    setTimeout(function () {
+    setTimeout(() => {
       setResultData((prev) => prev + nextWord);
     }, 75 * index);
   };
@@ -20,6 +21,7 @@ const ContextProvider = (props) => {
   const newChat = () => {
     setLoading(false);
     setShowResult(false);
+    setConversationHistory([]); // Reset conversation history for a new chat
   };
 
   const onSent = async (prompt) => {
@@ -30,10 +32,12 @@ const ContextProvider = (props) => {
     if (prompt !== undefined) {
       response = await run(prompt);
       setRecentPrompt(prompt);
+      setConversationHistory((prev) => [...prev, { prompt, response }]);
     } else {
       setPrevPrompts((prev) => [...prev, input]);
       setRecentPrompt(input);
       response = await run(input);
+      setConversationHistory((prev) => [...prev, { prompt: input, response }]);
     }
 
     let responseArray = response.split("**");
@@ -51,6 +55,7 @@ const ContextProvider = (props) => {
       const nextWord = newResponseArray[i];
       delayPara(i, nextWord + " ");
     }
+
     setLoading(false);
     setInput("");
   };
@@ -67,6 +72,7 @@ const ContextProvider = (props) => {
     input,
     setInput,
     newChat,
+    conversationHistory, // Expose the conversation history in the context
   };
 
   return (
